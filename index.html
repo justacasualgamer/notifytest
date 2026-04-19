@@ -50,24 +50,32 @@
             const b = document.getElementById("b").value;
             const f = document.getElementById("f").files[0];
             const u = document.getElementById("u").value;
+            var n;
             if (f) {
                 if (!f.type.startsWith('image/')) {
                     alert('Please select an image file.');
                     return;
                 } else {
                     let icon = URL.createObjectURL(f);
-                    new Notification(t, {
+                    n = new Notification(t, {
                         body: b,
                         icon: icon,
-                        navigate: u
+                        data: {
+                            url: u
+                        }
                     });
                     URL.revokeObjectURL(f);
                 }
             } else {
-                new Notification(t, {
+                n = new Notification(t, {
                     body: b,
-                    navigate: u
+                    data: {
+                        url: u
+                    }
                 });
+            }
+            n.onclick = (e) => {
+                window.open(e.target.data.url)
             }
         }
     </script>
